@@ -15,6 +15,7 @@ var startx;
 var starty;
 var blocked = false;
 
+
 //sprite groups
 var upFacingSprings;
 var downFacingSprings;
@@ -149,7 +150,16 @@ theGame.prototype = {
         //setup player
         startx = startPos[stageNumber-1].startX;
         starty = startPos[stageNumber-1].startY;
-        player = this.game.add.sprite(startx, starty, 'player');
+
+        player = this.game.add.sprite(startx, starty, 'playerSheet');
+        player.body.setSize(20, 32, 10, 0);
+        player.animations.add('running', [0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10], 15, true);
+        player.animations.add('jumping', [11], 15, false);
+        player.animations.add('jumpTransition', [12, 13, 14, 15, 16], 15, false);
+        player.animations.add('slowFall', [17, 18, 19, 20, 21, 22], 15, true);
+        player.animations.add('fastFall', [23], 15, false);
+        player.animations.play('running');
+
         this.game.physics.enable(player, Phaser.Physics.ARCADE);
         player.anchor.setTo(0.5);
         player.body.gravity.y = runGravity;
@@ -172,6 +182,7 @@ theGame.prototype = {
     },
 
     render: function(){
+        this.game.debug.body(player);
     },
 
     update: function(){
@@ -244,6 +255,7 @@ theGame.prototype = {
         player.body.velocity.y = velocityY;
         player.body.gravity.y = gravity;
         playerState = previousState;
+        player.animations.paused = false;
 
         pauseBlock.kill();
         resumeButton.kill();
@@ -252,7 +264,14 @@ theGame.prototype = {
     },
 
     menu: function(){
+        //reset game state, flyers and player speed
+        movementSpeed = 6;
+        flyers = [];
+        flyerPositionsX = [];
+        flyerPositionsY = [];
         gameState = "GO";
+
+        //go to menu
         this.game.state.start('Menu');
     },
 
@@ -280,6 +299,7 @@ theGame.prototype = {
             }
 
             gameState = "GO";
+            player.animations.play('running');
             playerState = "RUN";
         }
     },
@@ -306,11 +326,13 @@ theGame.prototype = {
                 break;
         }
         player.body.gravity.y = slowGravity;
+        player.animations.play('jumping');
         playerState = "JUMP";
     },
 
     downSpringCollide: function(){
         player.body.gravity.y = 4000;
+        player.animations.play('fastFall');
         playerState = "FASTFALL";
     },
 
@@ -357,9 +379,11 @@ theGame.prototype = {
         if(this.game.input.keyboard.isDown(Phaser.Keyboard.SPACEBAR)){
             player.body.gravity.y = slowGravity;
             player.body.velocity.y = -600;
+            player.animations.play('jumping');
             playerState = "JUMP";
         }else if(!player.body.blocked.down){
             player.body.gravity.y = runGravity;
+            player.animations.play('jumpTransition');
             playerState = "SLOWFALL"
         }
     },
@@ -379,6 +403,7 @@ theGame.prototype = {
         }
         if(player.body.velocity.y >= 0){
             player.body.gravity.y = runGravity;
+            player.animations.play('jumpTransition');
             playerState = "SLOWFALL"
         }
     },
@@ -400,8 +425,10 @@ theGame.prototype = {
         if(this.game.input.keyboard.isDown(Phaser.Keyboard.SPACEBAR)){
             //console.log("IN");
             player.body.gravity.y = fastGravity;
+            player.animations.play('fastFall');
             playerState = "FASTFALL";
         }else if(player.body.blocked.down){
+            player.animations.play('running');
             playerState = "RUN";
         }
     },
@@ -421,6 +448,7 @@ theGame.prototype = {
         }
 
         if(player.body.blocked.down){
+            player.animations.play('running');
             playerState = "RUN";
         }
     },
@@ -453,6 +481,7 @@ theGame.prototype = {
             player.body.velocity.y = 0;
             player.body.gravity.y = 0;
             previousState = playerState;
+            player.animations.paused = true;
             playerState = "PAUSED";
 
             //flyers pause
@@ -498,6 +527,7 @@ function resume(){
     player.body.velocity.y = velocityY;
     player.body.gravity.y = gravity;
     playerState = previousState;
+    player.animations.paused = false;
 
     pauseBlock.kill();
     resumeButton.kill();

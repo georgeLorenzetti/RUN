@@ -49,6 +49,9 @@ var preload = function(game){}
  
 preload.prototype = {
 	preload: function(){ 
+        //sprite sheets
+        this.game.load.spritesheet('playerSheet', "assets/playerSheet.png", 40, 32, 24);
+
 		this.game.load.image('player', 'assets/player.png');
         this.game.load.image('floor', 'assets/floor.png');
         this.game.load.image('upSpring', 'assets/spring.png');
