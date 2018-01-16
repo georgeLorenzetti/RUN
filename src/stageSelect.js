@@ -5,6 +5,8 @@ var maxStageNumber = 10;
  
 stageSelect.prototype = {
   	create: function(){
+  		this.game.add.sprite(20, 300, 'instructions');
+
 		var one = this.game.add.button(60, 100, "1", function(){this.playTheGame(1)}, this);
 		var two = this.game.add.button(145, 100, "2", function(){this.playTheGame(2)}, this);
 		var three = this.game.add.button(230, 100, "3", function(){this.playTheGame(3)}, this);

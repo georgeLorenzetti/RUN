@@ -92,6 +92,7 @@ preload.prototype = {
         this.game.load.image('13', 'assets/13.png');
         this.game.load.image('14', 'assets/14.png');
         this.game.load.image('15', 'assets/15.png');
+        this.game.load.image('instructions', 'assets/instructions.png');
         this.game.load.image('pause', 'assets/pause.png');
         this.game.load.image('menu', 'assets/menu.png');
         this.game.load.image('resume', 'assets/resume.png');

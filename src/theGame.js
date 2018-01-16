@@ -182,7 +182,7 @@ theGame.prototype = {
     },
 
     render: function(){
-        this.game.debug.body(player);
+        //this.game.debug.body(player);
     },
 
     update: function(){
