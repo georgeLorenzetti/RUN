@@ -4,7 +4,6 @@ var theGame = function(game){
 }
 
 //game variables
-var cursors;
 var gameState = "GO";
 var keyup = false;
 
@@ -66,7 +65,6 @@ theGame.prototype = {
         gameState = "GO";
 
         //setup input
-        cursors = this.game.input.keyboard.createCursorKeys();
 
         //setup physics/gravity
         this.game.physics.startSystem(Phaser.Physics.ARCADE);
@@ -186,7 +184,10 @@ theGame.prototype = {
     },
 
     update: function(){
-        console.log(player.body.velocity.x);
+        if(this.game.input.activePointer.isDown){
+            console.log("BOOP");
+        }
+
         //move text
         if(speeds.length > 0){
             t.position.x = player.body.position.x - 60;
@@ -279,28 +280,17 @@ theGame.prototype = {
         player.body.velocity.x = 0;
     },
 
-    flyerEnter: function(flyer){
-        console.log("WOOP");
-        flyer.body.velocity.x = -200;
-    },
-
-    ///////////////////////
-    //collision callbacks//
-    ///////////////////////
-
     resetUpdate: function(){
         if(player.body.blocked.down && this.camera.x <= startCameraX){
             for(var i = 0; i < flyers.length; i++){
                 var flyer = flyers.getChildAt(i);
-                flyer.revive();
                 flyer.body.position.x = flyerPositionsX[i];
                 flyer.body.position.y = flyerPositionsY[i];
-                flyer.body.velocity.x = 0;
+                flyers.callAll('revive');
             }
 
             gameState = "GO";
-            player.animations.play('running');
-            playerState = "RUN";
+            this.changeStateRun();
         }
     },
 
@@ -316,35 +306,26 @@ theGame.prototype = {
         this.game.state.start('Game');
     },
 
+    ///////////////////////
+    //collision callbacks//
+    ///////////////////////
     upSpringCollide: function(){
         switch(playerState){
             case "FASTFALL":
-                player.body.velocity.y = -900;
+                this.changeStateJump(-900);
                 break;
             default:
-                player.body.velocity.y = -750;
+                this.changeStateJump(-750);
                 break;
         }
-        player.body.gravity.y = slowGravity;
-        player.animations.play('jumping');
-        playerState = "JUMP";
     },
 
     downSpringCollide: function(){
-        player.body.gravity.y = 4000;
-        player.animations.play('fastFall');
-        playerState = "FASTFALL";
+        this.changeStateFastfall();
     },
 
     flyerCollide: function(){
-        gameState = "RESET";
-        player.body.gravity.y = runGravity;
-        player.body.position.x = startx;
-        player.body.position.y = starty;
-        player.body.velocity.x = 0;
-        player.body.velocity.y = 0;
-        movementSpeed = 6;
-        playerState = "RESET";
+        this.changeStateReset();
     },
 
     speedOverlap: function(){
@@ -361,96 +342,104 @@ theGame.prototype = {
 
     runUpdate: function(){
         player.body.gravity.y = runGravity;
-
-        //if death
+        //if player dies, reset
         if(player.body.blocked.right || player.body.position.y >= bottomHeight){
-;           //reset player
-            gameState = "RESET";
-            player.body.gravity.y = runGravity;
-            player.body.position.x = startx;
-            player.body.position.y = starty;
-            player.body.velocity.x = 0;
-            player.body.velocity.y = 0;
-            movementSpeed = 6;
-            playerState = "RESET";
+            this.changeStateReset();
             return;
         }
-
-        if(this.game.input.keyboard.isDown(Phaser.Keyboard.SPACEBAR)){
-            player.body.gravity.y = slowGravity;
-            player.body.velocity.y = -600;
-            player.animations.play('jumping');
-            playerState = "JUMP";
-        }else if(!player.body.blocked.down){
-            player.body.gravity.y = runGravity;
-            player.animations.play('jumpTransition');
-            playerState = "SLOWFALL"
+        //if player clicks, jump
+        if(this.game.input.activePointer.isDown){
+            this.changeStateJump(-600);
+            return;
+        }
+        //if player is blocked up, slowfall
+        if(!player.body.blocked.down){
+            this.changeStateSlowfall();
+            return;
         }
     },
 
     jumpUpdate: function(){
-        //if death
+        //if player dies, reset
         if(player.body.blocked.right || player.body.position.y >= bottomHeight){
-            gameState = "RESET";
-            player.body.gravity.y = runGravity;
-            player.body.position.x = startx;
-            player.body.position.y = starty;
-            player.body.velocity.x = 0;
-            player.body.velocity.y = 0;
-            movementSpeed = 6;
-            playerState = "RESET";
+            this.changeStateReset();
             return;
         }
+        //if player reaches jump peak, slowfall
         if(player.body.velocity.y >= 0){
-            player.body.gravity.y = runGravity;
-            player.animations.play('jumpTransition');
-            playerState = "SLOWFALL"
+            this.changeStateSlowfall();
+            return;
         }
     },
 
     slowfallUpdate: function(){
-        //if death
+        //if player dies, reset
         if(player.body.blocked.right || player.body.position.y >= bottomHeight){
-            gameState = "RESET";
-            player.body.gravity.y = runGravity;
-            player.body.position.x = startx;
-            player.body.position.y = starty;
-            player.body.velocity.x = 0;
-            player.body.velocity.y = 0;
-            movementSpeed = 6;
-            playerState = "RESET";
+            this.changeStateReset();
             return;
         }
-
-        if(this.game.input.keyboard.isDown(Phaser.Keyboard.SPACEBAR)){
-            //console.log("IN");
-            player.body.gravity.y = fastGravity;
-            player.animations.play('fastFall');
-            playerState = "FASTFALL";
+        //if player clicks, fastfall
+        if(this.game.input.activePointer.isDown){
+            this.changeStateFastfall();
+        //if player lands, run
         }else if(player.body.blocked.down){
-            player.animations.play('running');
-            playerState = "RUN";
+            this.changeStateRun();
         }
     },
 
     fastfallUpdate: function(){
-        //if death
+        //if player dies, reset
         if(player.body.blocked.right || player.body.position.y >= bottomHeight){
-            gameState = "RESET";
-            player.body.gravity.y = runGravity;
-            player.body.position.x = startx;
-            player.body.position.y = starty;
-            player.body.velocity.x = 0;
-            player.body.velocity.y = 0;
-            movementSpeed = 6;
-            playerState = "RESET";
-            return;            
+            this.changeStateReset();
         }
-
+        //if player lands, run
         if(player.body.blocked.down){
-            player.animations.play('running');
-            playerState = "RUN";
+            this.changeStateRun();
         }
+    },
+
+    /////////////////////////////
+    //Player State Transitions//
+    ////////////////////////////
+    changeStateRun: function(){
+        player.animations.play('running');
+        playerState = "RUN";
+        return;
+    },
+
+    changeStateJump: function(velocity){
+        player.body.gravity.y = slowGravity;
+        player.body.velocity.y = velocity;
+        player.animations.play('jumping');
+        playerState = "JUMP";
+        return;
+    },
+
+    changeStateFastfall: function(){
+        player.body.gravity.y = fastGravity;
+        player.animations.play('fastFall');
+        playerState = "FASTFALL";
+        return;
+    },
+
+    changeStateSlowfall: function(){
+        player.body.gravity.y = runGravity;
+        player.animations.play('jumpTransition');
+        playerState = "SLOWFALL"
+        return;
+    },
+
+    changeStateReset: function(){
+        gameState = "RESET";
+        flyers.callAll('kill');
+        player.body.gravity.y = runGravity;
+        player.body.position.x = startx;
+        player.body.position.y = starty;
+        player.body.velocity.x = 0;
+        player.body.velocity.y = 0;
+        movementSpeed = 6;
+        playerState = "RESET";
+        return;    
     },
 
     //////////////////
@@ -460,7 +449,8 @@ theGame.prototype = {
     gameGo: function(){
         for(var i = 0; i < flyers.length; i++){
             var flyer = flyers.getChildAt(i);
-            if(flyer.inCamera && flyer.body.velocity.x == 0){
+            flyer.body.velocity.x = 0;
+            if(flyer.inCamera){
                 flyer.body.velocity.x = -200;
             }
         }
