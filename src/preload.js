@@ -51,12 +51,12 @@ preload.prototype = {
 	preload: function(){ 
         //sprite sheets
         this.game.load.spritesheet('playerSheet', "assets/playerSheet.png", 40, 32, 24);
+        this.game.load.image('flyer', 'assets/flyer.png');
+        this.game.load.spritesheet('upSpring', 'assets/spring.png', 32, 22, 5);
 
 		this.game.load.image('player', 'assets/player.png');
         this.game.load.image('floor', 'assets/floor.png');
-        this.game.load.image('upSpring', 'assets/spring.png');
         this.game.load.image('downSpring', 'assets/spring2.png');
-        this.game.load.image('flyer', 'assets/flyer.png');
         this.game.load.image('speed', 'assets/speed.png');
         this.game.load.image('slow', 'assets/slow.png');
         this.game.load.tilemap('level1', 'assets/1.json', null, Phaser.Tilemap.TILED_JSON);
@@ -74,9 +74,12 @@ preload.prototype = {
         this.game.load.tilemap('level13', 'assets/13.json', null, Phaser.Tilemap.TILED_JSON);
         this.game.load.tilemap('level14', 'assets/10.json', null, Phaser.Tilemap.TILED_JSON);
         this.game.load.tilemap('level15', 'assets/10.json', null, Phaser.Tilemap.TILED_JSON);         
-        this.game.load.image('tileset', 'assets/tileset.png');
-        this.game.load.image('title', 'assets/title.png');
+        this.game.load.image('RooftopGuy', 'assets/tileset2.png');
+        this.game.load.image('rooftopGuyTitle', 'assets/rooftopGuy.png');
         this.game.load.image('play', 'assets/play.png');
+        this.game.load.image('play2', 'assets/play2.png');
+        this.game.load.image('menuBackground', 'assets/mainMenu.png');
+        this.game.load.image('stageSelectBackground', 'assets/stageSelect.png');
         this.game.load.image('1', 'assets/1.png');
         this.game.load.image('2', 'assets/2.png');
         this.game.load.image('3', 'assets/3.png');
@@ -92,10 +95,26 @@ preload.prototype = {
         this.game.load.image('13', 'assets/13.png');
         this.game.load.image('14', 'assets/14.png');
         this.game.load.image('15', 'assets/15.png');
+        this.game.load.image('1-2', 'assets/1-2.png');
+        this.game.load.image('2-2', 'assets/2-2.png');
+        this.game.load.image('3-2', 'assets/3-2.png');
+        this.game.load.image('4-2', 'assets/4-2.png');
+        this.game.load.image('5-2', 'assets/5-2.png');
+        this.game.load.image('6-2', 'assets/6-2.png');
+        this.game.load.image('7-2', 'assets/7-2.png');
+        this.game.load.image('8-2', 'assets/8-2.png');
+        this.game.load.image('9-2', 'assets/9-2.png');
+        this.game.load.image('10-2', 'assets/10-2.png');
+        this.game.load.image('11-2', 'assets/11-2.png');
+        this.game.load.image('12-2', 'assets/12-2.png');
+        this.game.load.image('13-2', 'assets/13-2.png');
         this.game.load.image('instructions', 'assets/instructions.png');
-        this.game.load.image('pause', 'assets/pause.png');
+        this.game.load.image('pause', 'assets/pauseMenu.png');
+        this.game.load.image('pauseButton', 'assets/pause.png');
         this.game.load.image('menu', 'assets/menu.png');
+        this.game.load.image('menu-2', 'assets/menu-2.png');
         this.game.load.image('resume', 'assets/resume.png');
+        this.game.load.image('resume-2', 'assets/resume-2.png');
 	},
   	create: function(){
   		console.log("preload");
