@@ -122,9 +122,10 @@ theGame.prototype = {
                             downFacingSprings.add(newSpring);
                             break;
                         case 210:
-                            var newFlyer = this.game.add.sprite(tile.worldX, tile.worldY+7, 'flyer');
+                            var newFlyer = this.game.add.sprite(tile.worldX, tile.worldY, 'flyer');
                             newFlyer.body.setSize(23, 15, 6, 2);
                             var startFrame = Math.floor(Math.random() * (9));
+                            console.log('UP');
                             newFlyer.animations.add('flying', [startFrame % 9, (startFrame+1) % 9, (startFrame+2) % 9, (startFrame+3) % 9, (startFrame+4) % 9, (startFrame+5) % 9, (startFrame+6) % 9, (startFrame+7) % 9, (startFrame+8) % 9], 15, true);
                             newFlyer.animations.play('flying');
                             flyers.add(newFlyer);
@@ -311,13 +312,16 @@ theGame.prototype = {
     finish: function(){ 
         flyerPositionsX = [];
         flyerPositionsY = [];
+        movementSpeed = 6;
         if(stageNumber < maxStageNumber){
             stageNumber++;
+            gameState = "GO";
+            this.game.state.start('Game');
         }else{
             stageNumber = 1;
+            this.game.state.start('Menu');
         }
-        gameState = "GO";
-        this.game.state.start('Game');
+
     },
 
     ///////////////////////

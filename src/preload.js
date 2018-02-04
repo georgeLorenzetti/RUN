@@ -3,6 +3,9 @@ var startPos = [{
     "startY":1150
 },{
     "startX":100,
+    "startY":1150
+},{
+    "startX":100,
     "startY":623
 },{
     "startX":100,
@@ -40,9 +43,6 @@ var startPos = [{
 },{
     "startX":100,
     "startY":1150
-},{
-    "startX":100,
-    "startY":1150
 }];
 
 var preload = function(game){}
@@ -72,8 +72,8 @@ preload.prototype = {
         this.game.load.tilemap('level11', 'assets/11.json', null, Phaser.Tilemap.TILED_JSON);
         this.game.load.tilemap('level12', 'assets/12.json', null, Phaser.Tilemap.TILED_JSON);
         this.game.load.tilemap('level13', 'assets/13.json', null, Phaser.Tilemap.TILED_JSON);
-        this.game.load.tilemap('level14', 'assets/10.json', null, Phaser.Tilemap.TILED_JSON);
-        this.game.load.tilemap('level15', 'assets/10.json', null, Phaser.Tilemap.TILED_JSON);         
+        this.game.load.tilemap('level14', 'assets/14.json', null, Phaser.Tilemap.TILED_JSON);
+        this.game.load.tilemap('level15', 'assets/15.json', null, Phaser.Tilemap.TILED_JSON);         
         this.game.load.image('RooftopGuy', 'assets/tileset2.png');
         this.game.load.image('rooftopGuyTitle', 'assets/rooftopGuy.png');
         this.game.load.image('play', 'assets/play.png');
@@ -108,6 +108,8 @@ preload.prototype = {
         this.game.load.image('11-2', 'assets/11-2.png');
         this.game.load.image('12-2', 'assets/12-2.png');
         this.game.load.image('13-2', 'assets/13-2.png');
+        this.game.load.image('14-2', 'assets/14-2.png');
+        this.game.load.image('15-2', 'assets/15-2.png');
         this.game.load.image('instructions', 'assets/instructions.png');
         this.game.load.image('pause', 'assets/pauseMenu.png');
         this.game.load.image('pauseButton', 'assets/pause.png');

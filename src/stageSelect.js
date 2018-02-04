@@ -1,7 +1,7 @@
 var stageSelect = function(game){}
 
 var stageNumber;
-var maxStageNumber = 10;
+var maxStageNumber = 14;
 
 var one;
 var two;
@@ -15,63 +15,75 @@ var nine;
 var ten;
 var twelve;
 var thirteen;
+var fourteen;
+var fifteen;
+
+
 
  
 stageSelect.prototype = {
   	create: function(){
   		this.game.add.sprite(0, 0, 'stageSelectBackground');
 
-		one = this.game.add.button(210, 280, "1", function(){this.playTheGame(1)}, this);
+		one = this.game.add.button(340, 280, "1", function(){this.playTheGame(1)}, this);
 		one.events.onInputOver.add(this.hover1, this);
 		one.events.onInputOut.add(this.leave1, this);
 
-		two = this.game.add.button(270, 280, "2", function(){this.playTheGame(2)}, this);
+		two = this.game.add.button(400, 280, "2", function(){this.playTheGame(2)}, this);
 		two.events.onInputOver.add(this.hover2, this);
 		two.events.onInputOut.add(this.leave2, this);
 
-		three = this.game.add.button(330, 280, "3", function(){this.playTheGame(3)}, this);
+		three = this.game.add.button(460, 280, "3", function(){this.playTheGame(3)}, this);
 		three.events.onInputOver.add(this.hover3, this);
 		three.events.onInputOut.add(this.leave3, this);
 
-		four = this.game.add.button(390, 280, "4", function(){this.playTheGame(4)}, this);
+		four = this.game.add.button(520, 280, "4", function(){this.playTheGame(4)}, this);
 		four.events.onInputOver.add(this.hover4, this);
 		four.events.onInputOut.add(this.leave4, this);
 
-		five = this.game.add.button(450, 280, "5", function(){this.playTheGame(5)}, this);
+		five = this.game.add.button(580, 280, "5", function(){this.playTheGame(5)}, this);
 		five.events.onInputOver.add(this.hover5, this);
 		five.events.onInputOut.add(this.leave5, this);
 
-		six = this.game.add.button(510, 280, "6", function(){this.playTheGame(6)}, this);
+		six = this.game.add.button(340, 340, "6", function(){this.playTheGame(6)}, this);
 		six.events.onInputOver.add(this.hover6, this);
 		six.events.onInputOut.add(this.leave6, this);
 
-		seven = this.game.add.button(570, 280, "7", function(){this.playTheGame(7)}, this);
+		seven = this.game.add.button(400, 340, "7", function(){this.playTheGame(7)}, this);
 		seven.events.onInputOver.add(this.hover7, this);
 		seven.events.onInputOut.add(this.leave7, this);
 
-		eight = this.game.add.button(630, 280, "8", function(){this.playTheGame(8)}, this);
+		eight = this.game.add.button(460, 340, "8", function(){this.playTheGame(8)}, this);
 		eight.events.onInputOver.add(this.hover8, this);
 		eight.events.onInputOut.add(this.leave8, this);
 
-		nine = this.game.add.button(690, 280, "9", function(){this.playTheGame(9)}, this);
+		nine = this.game.add.button(520, 340, "9", function(){this.playTheGame(9)}, this);
 		nine.events.onInputOver.add(this.hover9, this);
 		nine.events.onInputOut.add(this.leave9, this);
 
-		ten = this.game.add.button(750, 280, "10", function(){this.playTheGame(10)}, this);
+		ten = this.game.add.button(580, 340, "10", function(){this.playTheGame(10)}, this);
 		ten.events.onInputOver.add(this.hover10, this);
 		ten.events.onInputOut.add(this.leave10, this);
 
-		eleven = this.game.add.button(210, 340, "11", function(){this.playTheGame(11)}, this);
+		eleven = this.game.add.button(335, 400, "11", function(){this.playTheGame(11)}, this);
 		eleven.events.onInputOver.add(this.hover11, this);
 		eleven.events.onInputOut.add(this.leave11, this);
 
-		twelve = this.game.add.button(275, 340, "12", function(){this.playTheGame(12)}, this);
+		twelve = this.game.add.button(400, 400, "12", function(){this.playTheGame(12)}, this);
 		twelve.events.onInputOver.add(this.hover12, this);
 		twelve.events.onInputOut.add(this.leave12, this);
 
-		thirteen = this.game.add.button(340, 340, "13", function(){this.playTheGame(13)}, this);
+		thirteen = this.game.add.button(465, 400, "13", function(){this.playTheGame(13)}, this);
 		thirteen.events.onInputOver.add(this.hover13, this);
 		thirteen.events.onInputOut.add(this.leave13, this);
+
+		fourteen = this.game.add.button(530, 400, "14", function(){this.playTheGame(14)}, this);
+		fourteen.events.onInputOver.add(this.hover14, this);
+		fourteen.events.onInputOut.add(this.leave14, this);
+
+		fifteen = this.game.add.button(595, 400, "15", function(){this.playTheGame(15)}, this);
+		fifteen.events.onInputOver.add(this.hover15, this);
+		fifteen.events.onInputOut.add(this.leave15, this);
 
 
 		one.scale.setTo(0.75,0.75);
@@ -87,6 +99,8 @@ stageSelect.prototype = {
 		eleven.scale.setTo(0.75, 0.75);
 		twelve.scale.setTo(0.75, 0.75);
 		thirteen.scale.setTo(0.75, 0.75);
+		fourteen.scale.setTo(0.75, 0.75);
+		fifteen.scale.setTo(0.75, 0.75);
 
 		one.anchor.setTo(0.5,0.5);
 		two.anchor.setTo(0.5,0.5);
@@ -101,6 +115,8 @@ stageSelect.prototype = {
 		eleven.anchor.setTo(0.5,0.5);
 		twelve.anchor.setTo(0.5,0.5);
 		thirteen.anchor.setTo(0.5,0.5);
+		fourteen.anchor.setTo(0.5, 0.5);
+		fifteen.anchor.setTo(0.5, 0.5);
 		
 	},
 
@@ -148,6 +164,12 @@ stageSelect.prototype = {
 	hover13: function(){
 		thirteen.loadTexture('13-2');
 	},
+	hover14: function(){
+		fourteen.loadTexture('14-2');
+	},
+	hover15: function(){
+		fifteen.loadTexture('15-2');
+	},
 
 	leave1: function(){
 		one.loadTexture('1');
@@ -187,5 +209,11 @@ stageSelect.prototype = {
 	},
 	leave13: function(){
 		thirteen.loadTexture('13');
+	},
+	leave14: function(){
+		fourteen.loadTexture('14');
+	},
+	leave15: function(){
+		fifteen.loadTexture('15');
 	},
 }
