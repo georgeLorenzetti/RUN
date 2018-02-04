@@ -125,7 +125,6 @@ theGame.prototype = {
                             var newFlyer = this.game.add.sprite(tile.worldX, tile.worldY, 'flyer');
                             newFlyer.body.setSize(23, 15, 6, 2);
                             var startFrame = Math.floor(Math.random() * (9));
-                            console.log('UP');
                             newFlyer.animations.add('flying', [startFrame % 9, (startFrame+1) % 9, (startFrame+2) % 9, (startFrame+3) % 9, (startFrame+4) % 9, (startFrame+5) % 9, (startFrame+6) % 9, (startFrame+7) % 9, (startFrame+8) % 9], 15, true);
                             newFlyer.animations.play('flying');
                             flyers.add(newFlyer);
@@ -195,10 +194,6 @@ theGame.prototype = {
     },
 
     update: function(){
-        if(this.game.input.activePointer.isDown){
-            console.log("BOOP");
-        }
-
         //move text
         if(speeds.length > 0){
             t.position.x = player.body.position.x - 60;
@@ -314,7 +309,9 @@ theGame.prototype = {
         flyerPositionsY = [];
         movementSpeed = 6;
         if(stageNumber < maxStageNumber){
+            locked[stageNumber] = false;
             stageNumber++;
+            localStorage.level = stageNumber;
             gameState = "GO";
             this.game.state.start('Game');
         }else{
